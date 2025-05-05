@@ -1,0 +1,76 @@
+from django.db import models
+
+# Create your models here.
+class States(models.Model):
+    name = models.CharField(max_length=30, primary_key=True, default="None")
+    REGIONS = {
+        "new england": "New England", 
+        "mid-atlantic": "Mid-Atlantic", 
+        "midwest": "Midwest",
+        "south atlantic": "South Atlantic", 
+        "south central": "South Central", 
+        "mountain": "Mountain",
+        "pacific": "Pacific"
+    }
+    region = models.CharField(max_length=15, choices=REGIONS, default="midwest")
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    state = models.ForeignKey(States, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+class Landmark(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, primary_key= True, default="None")
+    TYPES = {
+        "C": "Cultural",
+        "H": "Historical",
+        "N": "Natural",
+    }
+    type = models.CharField(max_length=1, choices=TYPES, default="O")
+    price = models.DecimalField(decimal_places=2, max_digits=6)
+    opening_time = models.DecimalField(decimal_places=2, max_digits=4)
+    closing_time = models.DecimalField(decimal_places=2, max_digits=4)
+
+
+class Resturant(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, primary_key= True)
+    cusine = models.CharField(max_length=30)
+    rating = models.DecimalField(decimal_places=1, max_digits=2)
+    price_point = {
+        "$": "cheap", #<= 10 per person
+        "$$": "reasonable", #<= 20 per person
+        "$$$": "expensive", #<= 100 per person
+        "$$$$": "very expensive", #> 100 per person
+    }
+    price = models.CharField(max_length=5, choices=price_point, default="-")
+    opening_time = models.DecimalField(decimal_places=2, max_digits=4)
+    closing_time = models.DecimalField(decimal_places=2, max_digits=4)
+
+
+class Activity(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    name = models.CharField(max_length=40, primary_key= True)
+    decription = models.CharField(max_length=200, default="")
+    type = {
+        "O": "outdoor",
+        "I": "indoor",
+    }
+    type = models.CharField(max_length=1, choices=type, default="O")
+
+
+class Gear(models.Model):
+    name = models.CharField(max_length=40, primary_key= True)
+
+class Activity_Gear(models.Model):
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    gear = models.ManyToManyField(Gear)
+
+class Landmark_Gear(models.Model):
+    landmark = models.ForeignKey(Landmark, on_delete=models.CASCADE)
+    gear = models.ManyToManyField(Gear)
+
