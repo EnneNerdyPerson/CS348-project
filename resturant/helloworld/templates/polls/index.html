@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <title>My test page</title>
+        <style>
+            body {
+                margin: 10px 50px;
+            }
+
+            h2 {
+                margin: 10 5px;
+            }
+
+            h3, h4 {
+                margin: 7px 5px;
+            }
+
+            li, p {
+                margin: 5px 5px;
+            }
+        </style>
+    </head>
+    <body>
+        {% if state_list %}
+            <dl>
+            {% for state in state_list %}
+                <dt><h2>{{ state.name }}</h2></dt>
+                <dt><p>{{ state.get_region_display }}</p></dt>
+                {% for city in city_list %}
+                    {% if city.state == state %}
+                        <dd><h3>{{ city.name }}</h3></dd>
+                        <dd><h4>Landmarks</h4></dd>
+                        <dd><ul>
+                            {% for landmark in landmarks %}
+                                {% if landmark.city == city %}
+                                    <li>
+                                        <p>Name: <i>{{ landmark.name }}</i></p>
+                                        <p>Type: <i>{{ landmark.get_type_display }}</i></p>
+                                        {% if landmark.price == 0 %}
+                                            <p>Price: <i>Free</i></p>
+                                        {% else %}
+                                            <p>Price: <i>{{ landmark.price }}</i></p>
+                                        {% endif %}
+                                        {% if landmark.closing_time == 24 and landmark.opening_time == 0 %}
+                                            <p>Time: <i>All day</i></p>
+                                        {% else %}
+                                            <p>Time: <i>{{ landmark.opening_time }}-{{ landmark.closing_time }}</i></p>
+                                        {% endif %}
+                                    </li>
+                                {% endif %}                         
+                            {% endfor %}
+                        </ul></dd>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </dl>
+        {% else %}
+            <p>No states have been added</p>
+        {% endif %}
+    </body>
+</html>
