@@ -73,18 +73,18 @@ being found will ba adjacent to each other. In file view.py
 The file views.py is where all queries are held: prepared statements, and ORM. The most important
 functions are:
 - **Creating new rows**:
- - add_edit_activity
- - add_edit_resturant
- - add_edit_landmark
--  **Request a specific object**:
- -  edit_activity_edit
- -  edit_resturant_edit
- -  edit_landmark_edit
--  **Large queries with multiple filtering/sort/gets**:
- -  activity_sort
- -  resturant_sort
- -  landmark_sort
- -  state
--  **Requesting lots of data (little to no filtering)**:
- -  get_name
- -  index
+  - add_edit_activity
+  - add_edit_resturant
+  - add_edit_landmark
+- **Request a specific object**:
+  - edit_activity_edit
+  - edit_resturant_edit
+  - edit_landmark_edit
+- **Large queries with multiple filtering/sort/gets**:
+  - activity_sort
+  - resturant_sort
+  - landmark_sort
+  - state
+- **Requesting lots of data (little to no filtering)**:
+  - get_name
+  - index
