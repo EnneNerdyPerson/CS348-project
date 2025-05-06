@@ -23,7 +23,6 @@ def index(request):
         "city_list": city_list,
         "landmarks": landmarks
     }
-    # output = ", ".join([s.name for s in state_list])
 
     return HttpResponse(template.render(context, request))
 
@@ -697,13 +696,15 @@ def edit_landmark_get(request):
         print(form.errors)
    
     return HttpResponseRedirect(reverse("helloworld:add_edit_landmark", args=(name, state, city, landtype, price, start, end, )))
+
     
 def add_edit_landmark(request, name, state, city, landtype, price, start, end):
     city_count = City.objects.all().count()
-    if City.objects.get(name=city):
+    if City.objects.filter(name=city).filter(state=state):
+        found_city = City.objects.filter(name=city).filter(state=state)
         if not (Landmark.objects.filter(name=name).exists()):
             landmark = Landmark.objects.create(
-                city = City.objects.get(name=city),
+                city = found_city,
                 name = name,
                 type=landtype,
                 price=price,
@@ -711,15 +712,15 @@ def add_edit_landmark(request, name, state, city, landtype, price, start, end):
                 closing_time=end
             )
         else:
-            Landmark.objects.filter(name = name).update(
-                city = City.objects.get(name=city),
+            # landmark_object = Landmark.objects.filter(city=found_city)
+            Landmark.objects.filter(name=name).update(
                 type=landtype,
                 price=price,
                 opening_time=start,
                 closing_time=end
             )
     else:
-        city_count += 1
+        city_count = city_count + 2
         new_city = City.objects.create(
             id=city_count,
             state=States.objects.get(name=state),
@@ -818,10 +819,10 @@ def edit_resturant_get(request):
 
 def add_edit_resturant(request, name, state, city, type, price, rating, start, end):
     city_count = City.objects.all().count()
-    if (City.objects.filter(name=city).exists()):
+    if (City.objects.filter(name=city).filter(state=state).exists()):
+        found_city = City.objects.filter(name=city).filter(state=state)
         if not Resturant.objects.filter(name=name).exists():
             resturant = Resturant.objects.create(
-                city = City.objects.get(name=city),
                 name = name,
                 cusine=type,
                 rating=rating,
@@ -831,7 +832,6 @@ def add_edit_resturant(request, name, state, city, type, price, rating, start, e
             )
         else:
             Resturant.objects.filter(name = name).update(
-                city = City.objects.get(name=city),
                 cusine=type,
                 rating=rating,
                 price=price,
@@ -925,17 +925,16 @@ def edit_activity_get(request):
 
 def add_edit_activity(request, name, state, city, type, description):
     city_count = City.objects.all().count()
-    if (City.objects.filter(name=city).exists()):
+    if (City.objects.filter(name=city).filter(state=state).exists()):
+        found_city = City.objects.filter(name=city).filter(state=state)
         if not (Activity.objects.filter(name=name).exists()):
             activity = Activity.objects.create(
-                city = City.objects.get(name=city),
                 name = name,
                 description=description,
                 type = type
             )
         else:
             Activity.objects.filter(name=name).update(
-                city = City.objects.get(name=city),
                 name = name,
                 description=description,
                 type = type
