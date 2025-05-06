@@ -14,47 +14,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 
 def index(request):
-    # state5 = States.objects.get(pk="Oregon")
-    # state6 = States.objects.get(pk="Washington")
-
-    # state5.region = "pacific"
-    # state6.region = "pacific"
-
-    # state5.save()
-    # state6.save()
-
-    # City.objects.get(id=12).delete()
-
-    # city = City.objects.create(
-    #     id=38,
-    #     state=States.objects.get(name="California"),
-    #     name="Palm Springs"
-    # )
-    # landmark = Landmark.objects.create(
-    #     city = city,
-    #     name = "Yellowstone National Park",
-    #     type="N",
-    #     price=35.00,
-    #     opening_time=0.00,
-    #     closing_time=24.00
-    # )
-    # resturnat = Resturant.objects.create(
-    #     city = City.objects.get(name="Apollo Beach"),
-    #     name = "Finn's Dockside Bar & Grill",
-    #     cusine="American",
-    #     rating=4.3,
-    #     price="$$",
-    #     opening_time=11.00,
-    #     closing_time=22.00
-    # )
-    # activity = Activity.objects.create(
-    #     city = City.objects.get(name="Portland"),
-    #     name = "Portland City Tour",
-    #     decription = "Go around the city of Portland to explore the vibrant city with groovy neighborhoods and lovely natural beauty",
-    #     type="O"
-    # )
-
-
     state_list = States.objects.all()
     city_list = City.objects.all()
     landmarks = Landmark.objects.all()
@@ -738,7 +697,6 @@ def edit_landmark_get(request):
         print(form.errors)
    
     return HttpResponseRedirect(reverse("helloworld:add_edit_landmark", args=(name, state, city, landtype, price, start, end, )))
-
     
 def add_edit_landmark(request, name, state, city, landtype, price, start, end):
     city_count = City.objects.all().count()
@@ -1005,9 +963,3 @@ def add_edit_activity(request, name, state, city, type, description):
             )
 
     return HttpResponseRedirect(reverse("helloworld:get_state", args=( )))
-
-
-#Indexes
-# 1) One for each model's id (name)
-# 2) Maybe one for state regions
-# 3) May

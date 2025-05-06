@@ -86,8 +86,4 @@ class Activity(models.Model):
         "I": "indoor",
     }
     type = models.CharField(max_length=1, choices=TYPE_OPTION, default="O")
-    class Meta:
-        indexes = [
-            models.Index(fields=["type"], name="type_act"),
-        ]
 
