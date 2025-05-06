@@ -22,6 +22,7 @@ In file view.py:
       * 240    states_picked = States.objects.filter(region=states_picked_list[0])
       * 403    states_picked = States.objects.filter(region=states_picked_list[0])
       * 534    states_picked = States.objects.filter(region=states_picked_list[0])
+     
 * City
   * **attribtues**: id, state, name
   * **indexes**: state
@@ -37,6 +38,64 @@ being found will ba adjacent to each other. In file view.py
       * 423    cities = City.objects.filter(state=i)
       * 552    city_list = City.objects.filter(state=states_picked[0]);
       * 554    cities = City.objects.filter(state=i)
+      
 * Landmark
   * **attributes**: city, name, type, price, opening_time, closing_time
   * **indexes**: opening_time, closing_time, type
+  * **justification of indexes**:
+    * **opening_time**: Landmarks can be sorted/filtered in the report based on their opening time, as such having an index will reduce the stress for ranged queries on the opening time
+      * 287    start_landmark = Landmark.objects.filter(opening_time__lt=start)
+    * **closing_time**: Landmarks can be sorted/filtered in the report based on their closing time, as such having an index will reduce the stress for ranged queries on the opening time
+      * 291    close_landmark = Landmark.objects.filter(closing_time__gt=end)
+    * **type**: Another query which Landmarks can be sorted/filtered is their type. Having types be adjacent to one-another will reudce the stree of querying based on type, and thus, you would not need to make as many page requests as if there was no index.
+      * 277    temp1 = Landmark.objects.filter(type="C")
+      * 279    temp2 = Landmark.objects.filter(type="H")
+      * 281    temp3 = Landmark.objects.filter(type="N")
+   
+* Resturant
+  * **attributes**: city, name, cusine, rating, price, opening_time, closing_time
+  * **indexes**: opening_time, closing_time, price, rating
+  * **justification of indexes**:
+    * **opening_time**: Resturant can be sorted/filtered in the report based on their opening time, as such having an index will reduce the stress for ranged queries on the opening time
+      * 447    resturants = resturants.filter(opening_time__lt=start)
+    * **closing_time**: Resturant can be sorted/filtered in the report based on their closing time, as such having an index will reduce the stress for ranged queries on the opening time
+      * 449    resturants = resturants.filter(closing_time__gt=end)
+    * **price**: Another attriute that you can sort based on is price. Keeping in mind that price is seperated into 4 categorties only and since you can only request one price point, having price points adjacent to each other will reduce the number of page I/O and speed up the querying process
+      * 440    resturants = resturants.filter(price=price_range)
+    * **rating**: This is a ranged query which (especially with high ratings), benefits from this index.
+      * 444    resturants = resturants.filter(rating__gte=rating)
+   
+* Activity
+  * **attributes**: city, name, description, type
+  * **indexes**: none
+
+## Queries
+The file views.py is where all queries are held: prepared statements, and ORM. The most important
+functions are:
+- **Creating new rows**:
+  - add_edit_activity
+  - add_edit_resturant
+  - add_edit_landmark
+- **Request a specific object**:
+  - edit_activity_edit
+  - edit_resturant_edit
+  - edit_landmark_edit
+- **Large queries with multiple filtering/sort/gets**:
+  - activity_sort
+  - resturant_sort
+  - landmark_sort
+  - state
+- **Requesting lots of data (little to no filtering)**:
+  - get_name
+  - index
+
+## Forms
+The forms for requesting edits or sorting/filtering queries residents in the fomrs.py file.
+
+## HTML website 
+Within the templates/polls folder is the html files which are used to create the look of the website
+
+## URLs and Requesting Form information
+urls.py file
+
+These are the files that I have had a hand in editing that make the website work
