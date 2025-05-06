@@ -43,13 +43,13 @@ being found will ba adjacent to each other. In file view.py
   * **attributes**: city, name, type, price, opening_time, closing_time
   * **indexes**: opening_time, closing_time, type
   * **justification of indexes**:
-     * **opening_time**: Landmarks can be sorted/filtered in the report based on their opening time, 
+    * **opening_time**: Landmarks can be sorted/filtered in the report based on their opening time, 
 as such having an index will reduce the stress for ranged queries on the opening time
       * 287    start_landmark = Landmark.objects.filter(opening_time__lt=start)
-     * **closing_time**: Landmarks can be sorted/filtered in the report based on their closing time, 
+    * **closing_time**: Landmarks can be sorted/filtered in the report based on their closing time, 
 as such having an index will reduce the stress for ranged queries on the opening time
       * 291    close_landmark = Landmark.objects.filter(closing_time__gt=end)
-     * **type**: Another query which Landmarks can be sorted/filtered is their type. Having types be 
+    * **type**: Another query which Landmarks can be sorted/filtered is their type. Having types be 
 adjacent to one-another will reudce the stree of querying based on type, and thus, you would not 
 need to make as many page requests as if there was no index.
       * 277    temp1 = Landmark.objects.filter(type="C")
@@ -60,17 +60,17 @@ need to make as many page requests as if there was no index.
   * **attributes**: city, name, cusine, rating, price, opening_time, closing_time
   * **indexes**: opening_time, closing_time, price, rating
   * **justification of indexes**:
-     * **opening_time**: Resturant can be sorted/filtered in the report based on their opening time, 
+    * **opening_time**: Resturant can be sorted/filtered in the report based on their opening time, 
 as such having an index will reduce the stress for ranged queries on the opening time
       * 447    resturants = resturants.filter(opening_time__lt=start)
-     * **closing_time**: Resturant can be sorted/filtered in the report based on their closing time, 
+    * **closing_time**: Resturant can be sorted/filtered in the report based on their closing time, 
 as such having an index will reduce the stress for ranged queries on the opening time
       * 449    resturants = resturants.filter(closing_time__gt=end)
-     * **price**: Another attriute that you can sort based on is price. Keeping in mind that price 
+    * **price**: Another attriute that you can sort based on is price. Keeping in mind that price 
 is seperated into 4 categorties only and since you can only request one price point, having price
 points adjacent to each other will reduce the number of page I/O and speed up the querying process
       * 440    resturants = resturants.filter(price=price_range)
-     * **rating**: This is a ranged query which (especially with high ratings), benefits from this
+    * **rating**: This is a ranged query which (especially with high ratings), benefits from this
 index.
       * 444    resturants = resturants.filter(rating__gte=rating)
    
