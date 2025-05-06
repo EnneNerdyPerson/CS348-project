@@ -94,3 +94,8 @@ The forms for requesting edits or sorting/filtering queries residents in the fom
 
 ## HTML website 
 Within the templates/polls folder is the html files which are used to create the look of the website
+
+## URLs and Requesting Form information
+urls.py file
+
+These are the files that I have had a hand in editing that make the website work
