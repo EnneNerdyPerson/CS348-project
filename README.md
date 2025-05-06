@@ -88,3 +88,9 @@ functions are:
 - **Requesting lots of data (little to no filtering)**:
   - get_name
   - index
+
+## Forms
+The forms for requesting edits or sorting/filtering queries residents in the fomrs.py file.
+
+## HTML website 
+Within the templates/polls folder is the html files which are used to create the look of the website
